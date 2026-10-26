@@ -12,7 +12,11 @@ ALLOWED_HOSTS = [
         os.environ.get(
             "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0"
         ).split(",")
-        + [os.environ.get("VERCEL_URL", "")]
+        + [
+            os.environ.get("VERCEL_URL", ""),
+            os.environ.get("VERCEL_BRANCH_URL", ""),
+            os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", ""),
+        ]
     )
     if host.strip()
 ]
