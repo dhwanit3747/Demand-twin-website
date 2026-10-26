@@ -3,12 +3,17 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "development-only-change-me")
-DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes"}
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG", "false" if os.environ.get("VERCEL") else "true"
+).lower() in {"1", "true", "yes"}
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.environ.get(
-        "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0"
-    ).split(",")
+    for host in (
+        os.environ.get(
+            "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0"
+        ).split(",")
+        + [os.environ.get("VERCEL_URL", "")]
+    )
     if host.strip()
 ]
 
